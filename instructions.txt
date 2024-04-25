@@ -1,0 +1,99 @@
+In a file named p1.sml, declare the following datatype:
+
+ 
+datatype token = INT | MAI | RET | OP | CP | OB | CB | SC | IN of int;
+ 
+
+Then write an ML function with name/type:
+ 
+
+parse : string -> token list
+ 
+
+that inputs the name of a text file. The file will contain a sequence of characters representing a (not necessarily proper) C program. Your function will parse the text file and output a list of tokens that classify each type of word that was read in the file. The following table shows all possible valid words and their corresponding tokens.
+
+ 
+
+Word        Token
+int         INT
+main        MAI
+return      RET
+(           OP
+)           CP
+{           OB
+}           CB
+;           SC
+<integer>   IN <integer>
+
+ 
+
+For example, if the text file is named input.txt and contains:
+
+int main(){return 42;}
+
+Then your function should work as follows by the user in the terminal:
+
+- parse("input.txt");
+
+val it = [INT, MAI, OP, CP, OB, RET, IN 42, SC, CB] : token list
+ 
+The words may be separated by one or more whitespace characters, which shall be ignored. For example, if the text file contains:
+
+int main   (   ) {
+       return 42;
+}
+ 
+Then your function should return the same result as the previous example.
+
+The given text file need not contain a valid C program. Your parser's job is to correctly identify the tokens, even if the program would not successfully compile at a later stage. For example, if the text file contains:
+
+return ;3 int main)(}
+
+Then your function should return the result:
+
+val it = [RET, SC, IN 3, INT, MAI, CP, OP, CB] : token list
+
+The words int, main, return, and integers must have intervening whitespace among themselves to distinguish them. Also, any other words that are not in the table above shall be considered invalid. The following are examples that are considered invalid for parsing:
+
+int main() {
+       return42;
+}
+
+int Main() {
+       return 42;
+}
+
+intmain() {
+       return 42;
+}
+
+int main() {
+       x
+}
+ 
+For parsing an invalid file, your function should return an empty list. You should also display the message "Parse Error" to the terminal.
+
+Specifications:
+
+The parsing function write must have name and type parse: string -> token list, where the input is the file name and the output is the correct list of tokens interpreted from the file.
+To parse the assignment statement, you must use the structure/library functions specified in Canvas. No other structures or library functions are allowed without explicit permission.
+The words must follow the whitespace rules described above (like an actual C program).
+The only valid words recognized by the parser are listed in the table above.
+The input file can be blank, in which case your function should return an empty list.
+For parsing an invalid file, your function should return an empty list. You should also display the message "Parse Error" to the terminal.
+You may not allow any warnings from the interpreter.
+You may not allow any unhandled exceptions.
+Your project must be IDE independent. It should work properly when your code is loaded into the ML environment using the use function in the terminal interface.
+You must use the functional/recursive programming style with pattern matching where appropriate. Do not use loops, "global" variable bindings, or other procedural techniques (e.g., no if-then-else chains).
+ 
+
+Evaluation:
+
+To conquer the complexity of the project, it is recommended you start by coding to succeed on "simpler" cases and then adjust your code to handle more complex cases.
+To assist in code readability, break up tasks by writing helper functions when possible.
+Comment your code briefly but thoroughly.
+If you use ideas/code from other sources, cite them in the comments. Outside sources should be minimal… they shall not be used to replace large/important segments of code or to perform the tokenization for you.
+You may work with one partner. If you do, include in the comments a brief statement on how the work was divided and/or who was responsible for which pieces of code.
+You shall set an office appointment to do a presentation/demonstration/defense of your project after the submission deadline, which will be a part of your project grade.
+Penalties can be applied for being unable to explain parts of code, deviating from project specifications, insufficient source citing, compilation errors, being unprepared to demo, or for failing to complete the demo at the appointed times.
+You shall be graded on clarity, efficiency, efficacy. Observe good coding practices.
