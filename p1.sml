@@ -22,12 +22,24 @@ fun parse fileName =
         val content = TextIO.inputAll file
         val _ = TextIO.closeIn file
 
-        fun parseFile [] = []
+        fun parseFile filename = 
+            let
+                val inFile = TextIO.openIn filename
+                fun readAllLines (stream, acc) =
+                    case TextIO.inputLine stream of
+                        NONE => acc
+                    | SOME line => readAllLines (stream, line :: acc)
+                val lines = readAllLines (inFile, [])
+                val _ = TextIO.closeIn inFile
+                val allText = String.concat (List.rev lines)
+            in
+                String.translate (fn c => if Char.isSpace c then "" else str c) allText
+            end;
 
-        fun parseList [] = []
+        fun explodeList l = explode l;
         
     in
-        parseList content;
+        explode (parseFile fileName)
     end;
 
 parse "test1.txt";
