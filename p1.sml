@@ -43,3 +43,5 @@ fun parse fileName =
     end;
 
 parse "test1.txt";
+parse "test2.txt";
+parse "test3.txt";
