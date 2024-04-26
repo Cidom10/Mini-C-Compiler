@@ -16,9 +16,10 @@ We need it to work on stuff like "int main(){return 42;}" too.
 datatype token = INT | MAI | RET | OP | CP | OB | CB | SC | IN of int;
 
 (* Helper function to check and convert string to INT token if applicable *)
-fun is_int str = case Int.fromString str of
-                    NONE => NONE
-                  | SOME num => SOME (IN num);
+fun is_int str = 
+    case Int.fromString str of
+        NONE => NONE
+        | SOME num => SOME (IN num);
 
 (* Function to classify words into tokens *)
 fun classify word = 
@@ -51,7 +52,8 @@ fun parse filename =
         val _ = TextIO.closeIn file
     in
         (parse_tokens (split_words content))
-    end handle _ => (print "Parse Error\n"; []);
+    end;
 
 (* Usage Example: *)
 val result = parse "test1.txt";
+val result = parse "blank.txt";
