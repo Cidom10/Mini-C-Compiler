@@ -15,45 +15,19 @@ We need it to work on stuff like "int main(){return 42;}" too.
 
 datatype token = INT | MAI | RET | OP | CP | OB | CB | SC | IN of int;
 
-(* Helper function to check and convert string to INT token if applicable *)
-fun is_int str = 
-    case Int.fromString str of
-        NONE => NONE
-        | SOME num => SOME (IN num);
-
-(* Function to classify words into tokens *)
-fun classify word = 
-    case word of
-       "int"     => SOME INT
-     | "main"    => SOME MAI
-     | "return"  => SOME RET
-     | "("       => SOME OP
-     | ")"       => SOME CP
-     | "{"       => SOME OB
-     | "}"       => SOME CB
-     | ";"       => SOME SC
-     | _         => is_int word;
-
-(* Function to split the input string into words *)
-fun split_words str = List.filter (fn x => x <> "") (String.tokens (fn x => x = #" ") str);
-
-(* Recursive function to parse words into a token list *)
-fun parse_tokens [] = []
-  | parse_tokens (w::ws) = 
-      case classify w of
-          SOME token => token :: parse_tokens ws
-        | NONE => [];
-
-(* Main function to read file and parse it *)
-fun parse filename =
+fun parse fileName = 
     let
-        val file = TextIO.openIn filename
+        val curWord = []
+        val file = TextIO.openIn fileName
         val content = TextIO.inputAll file
         val _ = TextIO.closeIn file
+
+        fun parseFile [] = []
+
+        fun parseList [] = []
+        
     in
-        (parse_tokens (split_words content))
+        parseList content;
     end;
 
-(* Usage Example: *)
-val result = parse "test1.txt";
-val result = parse "blank.txt";
+parse "test1.txt";
